@@ -1,6 +1,6 @@
 ## Book-Ahead &amp; Supply Management for Ridesourcing Platforms
 
-This repository contains code and data for the following paper:
+This repository contains code and data for the following article:
 
 https://arxiv.org/abs/2002.09664
 
