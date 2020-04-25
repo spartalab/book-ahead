@@ -23,7 +23,7 @@ def getOrderedService(dataDict, region, slotInMinutes, windowInMinutes, numWindo
     '''
     --------------------------------------------------------------------------------------------------------
     returns the list of service times ordered from smallest to largest
-    this will be used to generate the empirical distribution
+    this will be used to generate the empirical service distribution
     --------------------------------------------------------------------------------------------------------
     returns a dictionary with ordered list for each window, dictofLists[window num.]=[least ser. time, ...]
     --------------------------------------------------------------------------------------------------------

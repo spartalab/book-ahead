@@ -162,6 +162,7 @@ def getEbarEmp(lamWin, listOS, window_length, windowFirstSlot, percentBooked):
     for a specific window (as determined by windowFirstSlot and lamWin) generate the standard dev.
     of instantaneous users at every time point, this corresponds to the standard dev. of the time-dependent
     R.V. representing the num. of users in an M/GI/infty queue that starts empty at the beg. of the window.
+	
     The time-dependent R.V. has a time-dependent Poisson dist. that has a variance of rhot (mean=variance
     for Poisson dist), and so the standard dev. is sqrt(rhot)
     --------------------------------------------------------------------------------------------------------
@@ -188,7 +189,7 @@ def getEbarEmp(lamWin, listOS, window_length, windowFirstSlot, percentBooked):
 def computeTargetNEmp(lamWindow, listOS, window_end_slot, window_length, bookingProfile, percentBooked, tolerance, initialN=0):
     '''
     ------------------------------------------------------------------------------------------------------
-    computes the target n for every window.
+    computes the target number of users for an upcoming window in a specific region.
     ------------------------------------------------------------------------------------------------------
     Note that the booking profile should include instantaneous
     riders and book aheads that did not exist in the past time window
@@ -227,9 +228,9 @@ def computeTargetNEmp(lamWindow, listOS, window_end_slot, window_length, booking
 def computeTargetNTotalStep(lam, dictOSwin, dataDict, region, winFirstSlot, winEndSlot, window_length, percentBooked, tolerance, IRsoFar, BAsoFar, initialN=0):
     '''
     ------------------------------------------------------------------------------------------------------
-    computes one step of computeTargetNTotalEmp (i.e., for one window only)
+    computes one step of computeTargetNTotalEmp (i.e., for one window only in a specific region)
     generates the BA from data, maintains the InOut tuples, and computes the targets
-    for a single window in a single region
+    for a single window in a single region by calling computeTargetNEmp
     ------------------------------------------------------------------------------------------------------    
     input:
         IRsoFar: remaining IR from past windows
@@ -268,15 +269,15 @@ def computeTargetNTotalStep(lam, dictOSwin, dataDict, region, winFirstSlot, winE
 def computeTargetNTotalEmp(lamAcrossW, dictOS, dataDict, region, start_slot, end_slot, window_length, percentBooked, tolerance, initializationWindows=2, initialN=0):
     '''
     ------------------------------------------------------------------------------------------------------
-    This implements target computation across all windows.
+    This implements target computation across all windows for a specific region (used for plotting 
+	assuming all users are admitted).
     
     WARNING: this method assumes all users are admitted, refer to 
     manage-demand-adm.py for admission control and target computations
     using computeTargetNTotalStep
     ------------------------------------------------------------------------------------------------------
-    computes target windows across time windows for a specific region
     generates the BA from data, maintains the InOut tuples, and computes the targets
-    for across window in a single region
+    for a single region across window using computeTargetNEmp
     ------------------------------------------------------------------------------------------------------
     input:    
     lamAcrossW: MLE arrival rates for every time window

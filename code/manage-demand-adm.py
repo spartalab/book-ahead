@@ -26,8 +26,7 @@ from ortools.graph import pywrapgraph
 def manageSupply(lamWR, dictOSWR, dataDict, start_slot, end_slot, window_length, percentBooked, tolerance, initialSupplyDict, adjacency, tolDef=0, initialN=0):
     '''
     ------------------------------------------------------------------------------------------------------
-    manages supply at the beginning of time windows by moving vehicles around using the min. cost flow
-    program
+    manages supply: 1. computes target 2. admission control 3. min. cost flow rebalancing
     ------------------------------------------------------------------------------------------------------
     input:
     lamWR: lambda for each region each window lamWR[region][window]
@@ -137,12 +136,13 @@ def maintainSupply(supplyDict, region, currentPt, winFirstSlot, winLen, winEnd, 
     '''
     ------------------------------------------------------------------------------------------------------
     maintains supply: propagates supplyDict forward by taking into consideration
-    arrivals and departures, also computes blocked that are not able to find a driver when they initiate
+    arrivals and departures, also implements admission control and computes blocked users 
+	that are not able to find a driver
     
     the main purpose of this method is twofold:
         1- update idle and active in each region based on arrivals and dep. and this is essential for
         the update stage where you compute the deviation of (idle+active) from the target.
-        2- determine blocked passengers and update InOut lists to eliminate blocked rides
+        2- adm. control and determine blocked passengers + update InOut lists to eliminate blocked rides
     ------------------------------------------------------------------------------------------------------
     Note: this function is implemented at every time step, you must implement
     it between load-balancing update points, a point that is about to be updated
